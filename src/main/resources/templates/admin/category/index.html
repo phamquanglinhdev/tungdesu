@@ -13,38 +13,26 @@
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Tags</th>
-                            <th>Author</th>
-                            <th>Date</th>
-                            <th>Comment</th>
+                            <th>Name</th>
+                            <th>Posts</th>
                             <th>Action</th>
                         </tr>
                         </thead>
                         <tfoot>
                         <tr>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Tags</th>
-                            <th>Author</th>
-                            <th>Date</th>
-                            <th>Comment</th>
+                            <th>Name</th>
+                            <th>Posts</th>
                             <th>Action</th>
                         </tr>
                         </tfoot>
                         <tbody>
-                        <th:block th:each="post:${posts}">
+                        <th:block th:each="category:${categories}">
                             <tr>
-                                <td th:text="${post.title}"></td>
-                                <td th:text="${post.category.getName()}"></td>
-                                <td th:text="${post.tagsToString()}"></td>
-                                <td th:text="${post.getAuthor().getName()}"></td>
-                                <td th:text="${post.getUpdated()}"></td>
-                                <td th:text="${post.getComments().size()}"></td>
+                                <td th:text="${category.name}"></td>
+                                <td th:text="${category.getPosts().size()}"></td>
                                 <th>
-                                    <a th:href="@{|/admin/post/edit/${post.getId()}|}">Edit</a> |
-                                    <a th:href="@{|/admin/post/delete/${post.getId()}|}">Remove</a>
+                                    <a th:href="@{|/admin/category/edit/${category.getId()}|}">Edit</a> |
+                                    <a th:href="@{|/admin/category/delete/${category.getId()}|}">Remove</a>
                                 </th>
                             </tr>
                         </th:block>

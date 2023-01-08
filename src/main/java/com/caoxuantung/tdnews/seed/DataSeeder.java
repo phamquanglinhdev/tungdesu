@@ -1,5 +1,6 @@
 package com.caoxuantung.tdnews.seed;
 
+import com.caoxuantung.tdnews.repositories.CategoryRepository;
 import com.caoxuantung.tdnews.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
@@ -14,11 +15,14 @@ public class DataSeeder implements ApplicationListener<ContextRefreshedEvent> {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent arg0) {
         UserSeeder userSeeder = new UserSeeder(passwordEncoder, userRepository);
         userSeeder.run();
+        new CategorySeeder(categoryRepository).run();
     }
 
 }
