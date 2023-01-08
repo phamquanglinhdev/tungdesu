@@ -5,7 +5,6 @@ import com.caoxuantung.tdnews.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
@@ -21,7 +20,7 @@ public class UserDetailServicesImpl implements UserDetailsService {
 
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserPrincipal loadUserByUsername(String email) throws UsernameNotFoundException {
 
         User user = userRepository.findByEmail(email);
         if (user == null) {
@@ -30,8 +29,8 @@ public class UserDetailServicesImpl implements UserDetailsService {
         }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
-        System.out.println(grantedAuthorities);
-        System.out.println(user);
-        return new UserPrincipal(user.getEmail(), user.getPassword(), user.getName(), grantedAuthorities);
+        UserPrincipal userPrincipal = new UserPrincipal(user.getEmail(), user.getPassword(), user.getName(), grantedAuthorities);
+        System.out.println(userPrincipal.getName());
+        return userPrincipal;
     }
 }

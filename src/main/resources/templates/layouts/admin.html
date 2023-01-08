@@ -48,6 +48,32 @@
                 <span>Dashboard</span></a>
         </li>
         <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#categoryTab"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-list"></i>
+                <span>Category</span>
+            </a>
+            <div id="categoryTab" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" th:href="@{/admin/category}">Categories</a>
+                    <a class="collapse-item" th:href="@{/admin/category/create}">Create Category</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#tagTab"
+               aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-tags"></i>
+                <span>Tag</span>
+            </a>
+            <div id="tagTab" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <a class="collapse-item" th:href="@{/admin/tag}">Tags</a>
+                    <a class="collapse-item" th:href="@{/admin/tag/create}">Create Tag</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
             <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#postTab"
                aria-expanded="true" aria-controls="collapseTwo">
                 <i class="fab fa-fw fa-pinterest"></i>
@@ -60,6 +86,7 @@
                 </div>
             </div>
         </li>
+
 
     </ul>
     <!-- End of Sidebar -->

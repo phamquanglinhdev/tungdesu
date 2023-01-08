@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="TemplateMo">
-    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap"
+          rel="stylesheet">
 
     <title>TD NEWS</title>
 
@@ -41,7 +42,8 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="#"><h2>TD News<em>.</em></h2></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -62,6 +64,18 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Contact Us</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <th:block th:text="${#authentication.getPrincipal().getName()}"/>
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" th:href="@{/logout}">Logout</a>
+                            <th:block th:if="${#strings.trim(#authentication.getAuthorities()[0])=='admin'}">
+                                <a class="dropdown-item" th:href="@{/admin}">Dashboard</a>
+                            </th:block>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -109,13 +123,13 @@
 <script th:src="@{/assets/js/isotope.js}"></script>
 <script th:src="@{/assets/js/accordions.js}"></script>
 
-<script language = "text/Javascript">
+<script language="text/Javascript">
     cleared[0] = cleared[1] = cleared[2] = 0; //set a cleared flag for each field
-    function clearField(t){                   //declaring the array outside of the
-        if(! cleared[t.id]){                      // function makes it static and global
+    function clearField(t) {                   //declaring the array outside of the
+        if (!cleared[t.id]) {                      // function makes it static and global
             cleared[t.id] = 1;  // you could use true and false, but that's more typing
-            t.value='';         // with more chance of typos
-            t.style.color='#fff';
+            t.value = '';         // with more chance of typos
+            t.style.color = '#fff';
         }
     }
 </script>

@@ -4,8 +4,9 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.security.Timestamp;
+import java.util.Collection;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 
 @Entity
@@ -21,12 +22,34 @@ public class Post {
     private User author;
     @Column(length = 1000000)
     private String document;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
     @CreationTimestamp
     @Column(name = "created_at")
     private Date created;
     @UpdateTimestamp
     @Column(name = "updated_at")
     private Date updated;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+    private Collection<Comment> comments;
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    public Collection<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Collection<Comment> comments) {
+        this.comments = comments;
+    }
 
     public Date getCreated() {
         return created;
@@ -35,6 +58,19 @@ public class Post {
     public Date getUpdated() {
         return updated;
     }
+
+    @ManyToMany
+    @JoinTable(name = "post_tag", joinColumns = @JoinColumn(name = "post_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Collection<Tag> tags;
+
+    public Collection<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(Collection<Tag> tags) {
+        this.tags = tags;
+    }
+
 
     public Post() {
     }
@@ -67,9 +103,26 @@ public class Post {
         return document;
     }
 
+
     public void setDocument(String document) {
         this.document = document;
     }
 
+    @Override
+    public String toString() {
+        return "Post{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author=" + author +
+                ", document='" + document + '\'' +
+                ", created=" + created +
+                ", updated=" + updated +
+                ", comments=" + comments +
+                '}';
+    }
 
+    public String tagsToString() {
+        return this.getTags().stream().map(Tag::getName).collect(Collectors.joining(","));
+
+    }
 }
