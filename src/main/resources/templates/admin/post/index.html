@@ -1,0 +1,54 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layouts/admin::common(~{::content},~{::css},~{::js})">
+<css>
+</css>
+<content>
+    <div class="container-fluid">
+        <!-- DataTales Example -->
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Posts/Blogs</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Date</th>
+                            <th>Comment</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Title</th>
+                            <th>Author</th>
+                            <th>Date</th>
+                            <th>Comment</th>
+                            <th>Action</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        <th:block th:each="post:${posts}">
+                            <tr>
+                                <td th:text="${post.title}"></td>
+                                <td th:text="${post.getAuthor().getName()}"></td>
+                                <td th:text="${post.getUpdated()}"></td>
+                                <td>40</td>
+                                <th>
+                                    <a th:href="@{#}">Edit</a> |
+                                    <a th:href="@{#}">Remove</a>
+                                </th>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</content>
+<js>
+</js>

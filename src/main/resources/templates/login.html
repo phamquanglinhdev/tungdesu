@@ -1,0 +1,29 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layouts/common::common(~{::content},~{::css},~{::js})">
+<css>
+</css>
+<content>
+    <div class="d-flex h-100 justify-content-center align-items-center">
+        <div class="bg-white">
+            <div class="h3 text-center text-uppercase">Login</div>
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <input type="email" name="email" placeholder="Enter your email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <input type="password" name="password" placeholder="Enter your password" class="form-control" id="exampleInputPassword1">
+                </div>
+<!--                <div class="form-group form-check">-->
+<!--                    <input type="checkbox" class="form-check-input" id="exampleCheck1">-->
+<!--                    <label class="form-check-label" for="exampleCheck1">Check me out</label>-->
+<!--                </div>-->
+                <button type="submit" class="btn btn-secondary w-100 text-uppercase">Login</button>
+                <div class="text-center small py-2">
+                    <a th:href="@{/register}">Haven't account ?Register now !</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</content>
+<js></js>
