@@ -4,7 +4,7 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
     <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
           rel="stylesheet"/>
-    <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"/>
 
     <style>
         .filepond--drop-label {
@@ -79,6 +79,15 @@
                     </div>
                     <button type="submit" class="btn btn-primary" th:text="${mode}"></button>
                 </form>
+
+                <style>
+                    img {
+                        display: block;
+
+                        /* This rule is very important, please don't ignore this */
+                        max-width: 100%;
+                    }
+                </style>
             </div>
         </div>
     </div>
@@ -98,38 +107,36 @@
             $('.js-example-basic-multiple').select2();
         });
     </script>
-    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
-    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
-    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-    <script th:src="@{/pintura-master/pintura.js}"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
         $(document).ready(() => {
             FilePond.registerPlugin(
-                // encodes the file as base64 data
+                FilePondPluginImagePreview,
                 FilePondPluginFileEncode,
-
-                // validates the size of the file
-                FilePondPluginFileValidateSize,
-
-                // corrects mobile image orientation
-                FilePondPluginImageExifOrientation,
-
-                // previews dropped images
-                FilePondPluginImagePreview
             );
-            FilePond.create(
+            const input = FilePond.create(
                 document.querySelector('#thumbnail'), {
-                    imageCropAspectRatio: 1,
-
-                    // resize to width of 200
                     imageResizeTargetWidth: 200,
-
-                    // open editor on image drop
-                    imageEditInstantEdit: true,
-                }
+                },
             )
+            var pond = document.querySelector('.filepond--root');
+            pond.addEventListener('FilePond:addfile', function () {
+                console.log(pond.querySelector('input[name="filepond"]'))
+            })
+            setTimeout(function () {
+                console.log(pond.querySelector('input[name="filepond"]').value)
+                const matchData = JSON.parse(pond.querySelector('input[name="filepond"]').value)
+                console.log(matchData)
+            }, 5000);
+
+            pond.addEventListener('FilePond:processfile', function (event) {
+                // Doesn't seem to fire at all?
+                console.log(event);
+            });
         })
+
     </script>
 </js>
