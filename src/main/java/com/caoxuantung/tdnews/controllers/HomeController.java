@@ -24,7 +24,7 @@ public class HomeController {
     @Autowired
     TagServices tagServices;
 
-    @GetMapping(value = {"", "index"})
+    @GetMapping(value = {"", "index", "/"})
     public String index(Model model) {
         model.addAttribute("newestPost", postServices.getNewestPost());
         model.addAttribute("trendingPost", postServices.getTrendingPost());
@@ -32,6 +32,16 @@ public class HomeController {
         model.addAttribute("categories", categoryServices.getAll());
         model.addAttribute("tags", tagServices.getAll());
         return "index";
+    }
+
+    @GetMapping("contact")
+    public String contact() {
+        return "contact";
+    }
+
+    @GetMapping("about")
+    public String about() {
+        return "about";
     }
 
     @GetMapping(value = {"login"})

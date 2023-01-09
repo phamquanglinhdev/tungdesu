@@ -1,64 +1,52 @@
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layouts/common::common(~{::content},~{::css},~{::js})">
-<css>
-    <style>
-
-    </style>
-</css>
+<css></css>
 <content>
-    <div class="main-banner header-text">
-        <div class="container-fluid">
-            <div class="owl-banner owl-carousel">
-                <div th:each="post:${newestPost}" class="item">
-                    <div class="bg-dark">
-                        <img th:src="${post.avatar}" alt="" style="opacity: 0.2">
-                    </div>
-                    <div class="item-content">
-                        <div class="main-content">
-                            <div class="meta-category">
-                                <span th:text="${post.getCategory().getName()}"></span>
-                            </div>
-                            <a th:href="@{|/post/${post.id}|}"><h4 th:text="${post.title}"></h4></a>
-                            <ul class="post-info">
-                                <li><a href="#"><span th:text="${post.getAuthor().getName()}"></span></a></li>
-                                <li><a href="#"><span th:text="${post.getUpdated()}"></span></a></li>
-                                <li><a href="#"><span th:text="${post.comments.size()}"></span> Comments</a></li>
-                            </ul>
+    <div class="heading-page header-text">
+        <section class="page-heading" style="background:linear-gradient(45deg,orange,white)">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-content">
+                            <h4 th:text="${post.category.name}"></h4>
+                            <h2 th:text="${post.title}"></h2>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </div>
+
     <!-- Banner Ends Here -->
-    <section class="blog-posts">
+    <section class="blog-posts grid-system">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
                     <div class="all-blog-posts">
                         <div class="row">
-                            <div th:each="post:${trendingPost}" class="col-lg-12">
+                            <div class="col-lg-12">
                                 <div class="blog-post">
-                                    <div class="blog-thumb">
-                                        <img th:src="${post.avatar}" alt="" >
-                                    </div>
                                     <div class="down-content">
-                                        <span th:text="${post.category.getName()}"></span>
-                                        <a th:href="@{|/post/${post.id}|}"><h4 th:text="${post.title}"></h4></a>
+                                        <span th:text="${post.category.name}"></span>
+                                        <a href="#"><h4 th:text="${post.title}"></h4></a>
                                         <ul class="post-info">
-                                            <li><a href="#" th:text="${post.getAuthor().getName()}"></a></li>
-                                            <li><a href="#" th:text="${post.getUpdated().toString()}"></a></li>
+                                            <li><a href="#" th:text="${post.author.name}"></a></li>
+                                            <li><a href="#" th:text="${post.updated}"></a></li>
                                             <li><a href="#">
-                                                <th:block th:text="${post.comments.size()}"/>
-                                                Comments</a></li>
+                                                <th:block th:text="${post.comments.size()}"></th:block>
+                                                Comments</a>
+                                            </li>
                                         </ul>
-                                        <p th:text="${post.description}"></p>
+                                        <div>
+
+                                        </div>
                                         <div class="post-options">
                                             <div class="row">
                                                 <div class="col-6">
                                                     <ul class="post-tags">
                                                         <li><i class="fa fa-tags"></i></li>
-                                                        <li th:each="tag:${post.tags}"><a href="#">
-                                                            <th:block th:text="${tag.getName()}"></th:block>
+                                                        <li th:each="tag:${tags}"><a href="#">
+                                                            <th:block th:text="${tag.name}"/>
                                                         </a>,
                                                         </li>
                                                     </ul>
@@ -72,6 +60,57 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="p-2">
+                                            <th:block th:utext="${post.document}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="sidebar-item comments">
+                                    <div class="sidebar-heading">
+                                        <h2><span th:text="${post.comments.size()}"></span> comments</h2>
+                                    </div>
+                                    <div class="content">
+                                        <ul>
+                                            <li th:each="comment:${post.comments}">
+                                                <div class="author-thumb">
+                                                    <img th:src="@{/assets/images/comment-author-01.jpg}" alt="">
+                                                </div>
+                                                <div class="right-content">
+                                                    <h4><th:block th:text="${comment.user.name}"/><span><th:block th:text="${comment.created}"/></span></h4>
+                                                    <p th:text="${comment.message}"></p>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="sidebar-item submit-comment">
+                                    <div class="sidebar-heading">
+                                        <h2>Your comment</h2>
+                                    </div>
+                                    <div class="content">
+                                        <form id="comment" th:action="@{/comment/add}" method="post">
+                                            <input hidden="hidden" name="post_id" th:value="${post.id}">
+                                            <div class="row">
+                                                <div class="col-lg-12">
+                                                    <fieldset>
+                                                        <textarea name="message" rows="6" id="message"
+                                                                  placeholder="Type your comment"
+                                                                  required=""></textarea>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="col-lg-12">
+                                                    <fieldset>
+                                                        <button type="submit" id="form-submit" class="main-button">
+                                                            Submit
+                                                        </button>
+                                                    </fieldset>
+                                                </div>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -138,8 +177,4 @@
         </div>
     </section>
 </content>
-<js>
-    <script>
-
-    </script>
-</js>
+<js></js>
