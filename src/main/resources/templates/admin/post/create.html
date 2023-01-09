@@ -2,6 +2,33 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layouts/admin::common(~{::content},~{::css},~{::js})">
 <css>
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
+          rel="stylesheet"/>
+    <link href="https://unpkg.com/filepond/dist/filepond.min.css" rel="stylesheet"/>
+
+    <style>
+        .filepond--drop-label {
+            color: #4c4e53;
+        }
+
+        .filepond--label-action {
+            text-decoration-color: #babdc0;
+        }
+
+        .filepond--panel-root {
+            border-radius: 2em;
+            background-color: #edf0f4;
+            height: 1em;
+        }
+
+        .filepond--item-panel {
+            background-color: #595e68;
+        }
+
+        .filepond--drip-blob {
+            background-color: #7f8a9a;
+        }
+    </style>
 </css>
 <content>
     <div class="container-fluid">
@@ -24,13 +51,29 @@
                                aria-describedby="emailHelp">
                     </div>
                     <div class="form-group">
+                        <label for="exampleInputEmail1">Thumbnail</label>
+                        <input type="text" th:field="*{avatar}" class="form-control" id="s"
+                               aria-describedby="emailHelp">
+                    </div>
+
+                    <input type="file"
+                           class="filepond"
+                           name="filepond"
+                           id="thumbnail"
+                    >
+                    <div class="form-group">
+                        <label for="document">Description</label>
+                        <textarea th:field="*{description}" class="form-control" id="description" rows="5"></textarea>
+                    </div>
+                    <div class="form-group">
                         <label for="document">Content</label>
                         <textarea th:field="*{document}" class="form-control" id="document" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
                         <label for="tags">Tags</label>
-                        <select class="form-control js-example-basic-multiple" th:field="*{tags}" multiple="multiple" id="tags">
+                        <select class="form-control js-example-basic-multiple" th:field="*{tags}" multiple="multiple"
+                                id="tags">
                             <option th:each="item:${tagList}" th:value="${item.id}" th:text="${item.name}"></option>
                         </select>
                     </div>
@@ -44,7 +87,7 @@
     <script src="https://cdn.tiny.cloud/1/v9a3hkc5xsw542n1csexyl6eaveglb8el5zminkjlklbn3v4/tinymce/6/tinymce.min.js"></script>
     <script>
         tinymce.init({
-            selector: 'textarea',
+            selector: '#document',
             plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tableofcontents footnotes mergetags autocorrect typography inlinecss',
             toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
         });
@@ -54,5 +97,39 @@
         $(document).ready(function () {
             $('.js-example-basic-multiple').select2();
         });
+    </script>
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-exif-orientation/dist/filepond-plugin-image-exif-orientation.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
+    <script th:src="@{/pintura-master/pintura.js}"></script>
+    <script>
+        $(document).ready(() => {
+            FilePond.registerPlugin(
+                // encodes the file as base64 data
+                FilePondPluginFileEncode,
+
+                // validates the size of the file
+                FilePondPluginFileValidateSize,
+
+                // corrects mobile image orientation
+                FilePondPluginImageExifOrientation,
+
+                // previews dropped images
+                FilePondPluginImagePreview
+            );
+            FilePond.create(
+                document.querySelector('#thumbnail'), {
+                    imageCropAspectRatio: 1,
+
+                    // resize to width of 200
+                    imageResizeTargetWidth: 200,
+
+                    // open editor on image drop
+                    imageEditInstantEdit: true,
+                }
+            )
+        })
     </script>
 </js>

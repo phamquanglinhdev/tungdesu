@@ -17,9 +17,31 @@ public class Post {
     @Column(name = "id", nullable = false)
     private Long id;
     private String title;
+    @Column(length = 100000)
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     @ManyToOne
     @JoinColumn(name = "author_id")
     private User author;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    @Column(length = 10000)
+    private String description;
     @Column(length = 1000000)
     private String document;
     @ManyToOne
