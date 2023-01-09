@@ -1,15 +1,14 @@
-<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layouts/common::common(~{::content},~{::css},~{::js})">
 <css></css>
 <content>
     <div class="heading-page header-text">
-        <section class="page-heading" style="background:linear-gradient(45deg,orange,white)">
+        <section class="page-heading">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="text-content">
-                            <h4 th:text="${post.category.name}"></h4>
-                            <h2 th:text="${post.title}"></h2>
+                            <h4 th:text="${type}"></h4>
+                            <h2 th:text="${name}"></h2>
                         </div>
                     </div>
                 </div>
@@ -24,96 +23,43 @@
                 <div class="col-lg-8">
                     <div class="all-blog-posts">
                         <div class="row">
-                            <div class="col-lg-12">
+                            <div th:each="post:${posts}" class="col-lg-6">
                                 <div class="blog-post">
+                                    <div class="blog-thumb">
+                                        <img th:src="${post.avatar}" alt="">
+                                    </div>
                                     <div class="down-content">
                                         <span th:text="${post.category.name}"></span>
-                                        <a href="#"><h4 th:text="${post.title}"></h4></a>
+                                        <a href="#"><h4 th:text="${#strings.abbreviate(post.title,60)}"></h4></a>
                                         <ul class="post-info">
                                             <li><a href="#" th:text="${post.author.name}"></a></li>
-                                            <li><a href="#" th:text="${post.updated}"></a></li>
-                                            <li><a href="#">
-                                                <th:block th:text="${post.comments.size()}"></th:block>
-                                                Comments</a>
-                                            </li>
+                                            <li><a href="#" th:text="${post.updated}">May 22, 2020</a></li>
+                                            <li><a href="#"><th:block th:text="${post.comments.size()}"/> Comments</a></li>
                                         </ul>
-                                        <div>
-
-                                        </div>
+                                        <p th:text="${#strings.abbreviate(post.description,100)}"></p>
                                         <div class="post-options">
                                             <div class="row">
-                                                <div class="col-6">
+                                                <div class="col-lg-12">
                                                     <ul class="post-tags">
                                                         <li><i class="fa fa-tags"></i></li>
-                                                        <li th:each="tag:${tags}"><a href="#">
+                                                        <li th:each="tag:${post.tags}"><a href="#">
                                                             <th:block th:text="${tag.name}"/>
-                                                        </a>,
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="col-6">
-                                                    <ul class="post-share">
-                                                        <li><i class="fa fa-share-alt"></i></li>
-                                                        <li><a href="#">Facebook</a>,</li>
-                                                        <li><a href="#"> Twitter</a></li>
+                                                        </a>,</li>
                                                     </ul>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="p-2">
-                                            <th:block th:utext="${post.document}"/>
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-12">
-                                <div class="sidebar-item comments">
-                                    <div class="sidebar-heading">
-                                        <h2><span th:text="${post.comments.size()}"></span> comments</h2>
-                                    </div>
-                                    <div class="content">
-                                        <ul>
-                                            <li th:each="comment:${post.comments}">
-                                                <div class="author-thumb">
-                                                    <img th:src="@{/assets/images/comment-author-01.jpg}" alt="">
-                                                </div>
-                                                <div class="right-content">
-                                                    <h4><th:block th:text="${comment.user.name}"/><span><th:block th:text="${comment.created}"/></span></h4>
-                                                    <p th:text="${comment.message}"></p>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-12">
-                                <div class="sidebar-item submit-comment">
-                                    <div class="sidebar-heading">
-                                        <h2>Your comment</h2>
-                                    </div>
-                                    <div class="content">
-                                        <form id="comment" th:action="@{/comment/add}" method="post">
-                                            <input hidden="hidden" name="post_id" th:value="${post.id}">
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <fieldset>
-                                                        <textarea name="message" rows="6" id="message"
-                                                                  placeholder="Type your comment"
-                                                                  required=""></textarea>
-                                                    </fieldset>
-                                                </div>
-                                                <div class="col-lg-12">
-                                                    <fieldset>
-                                                        <button type="submit" id="form-submit" class="main-button">
-                                                            Submit
-                                                        </button>
-                                                    </fieldset>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div>
+<!--                            <div class="col-lg-12">-->
+<!--                                <ul class="page-numbers">-->
+<!--                                    <li><a href="#">1</a></li>-->
+<!--                                    <li class="active"><a href="#">2</a></li>-->
+<!--                                    <li><a href="#">3</a></li>-->
+<!--                                    <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </div>

@@ -17,7 +17,8 @@
                             <div class="meta-category">
                                 <span th:text="${post.getCategory().getName()}"></span>
                             </div>
-                            <a th:href="@{|/post/${post.id}|}"><h4 th:text="${post.title}"></h4></a>
+                            <a th:href="@{|/post/${post.id}|}"><h4 th:text="${#strings.abbreviate(post.title,50)}"></h4>
+                            </a>
                             <ul class="post-info">
                                 <li><a href="#"><span th:text="${post.getAuthor().getName()}"></span></a></li>
                                 <li><a href="#"><span th:text="${post.getUpdated()}"></span></a></li>
@@ -39,7 +40,7 @@
                             <div th:each="post:${trendingPost}" class="col-lg-12">
                                 <div class="blog-post">
                                     <div class="blog-thumb">
-                                        <img th:src="${post.avatar}" alt="" >
+                                        <img th:src="${post.avatar}" alt="">
                                     </div>
                                     <div class="down-content">
                                         <span th:text="${post.category.getName()}"></span>
@@ -96,7 +97,7 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li th:each="post:${recentPost}"><a href="post-details.html">
+                                            <li th:each="post:${recentPost}"><a th:href="@{|/post/${post.id}|}">
                                                 <h5 th:text="${post.title}"></h5>
                                                 <span th:text="${post.updated}"></span>
                                             </a></li>
@@ -111,7 +112,8 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li th:each="category:${categories}"><a href="#">
+                                            <li th:each="category:${categories}"><a
+                                                    th:href="@{|/category/${category.id}|}">
                                                 - <span th:text="${category.getName()}"></span></a></li>
                                         </ul>
                                     </div>
@@ -124,7 +126,7 @@
                                     </div>
                                     <div class="content">
                                         <ul>
-                                            <li th:each="tag:${tags}"><a href="#">
+                                            <li th:each="tag:${tags}"><a th:href="@{|/tag/${tag.id}|}">
                                                 <span th:text="${tag.name}"></span>
                                             </a></li>
                                         </ul>
