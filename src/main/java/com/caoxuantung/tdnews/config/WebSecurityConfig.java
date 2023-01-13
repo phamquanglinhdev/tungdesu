@@ -34,8 +34,9 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .requestMatchers("/", "/home").permitAll()
+                .requestMatchers("/").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("admin")
+                .requestMatchers("/user/**").authenticated()
                 .and()
                 // some more method calls
                 .formLogin()

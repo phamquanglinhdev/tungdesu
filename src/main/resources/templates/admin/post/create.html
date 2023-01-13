@@ -52,8 +52,8 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Thumbnail</label>
-                        <input type="text" th:field="*{avatar}" class="form-control" id="s"
-                               aria-describedby="emailHelp">
+                        <input hidden type="text" th:field="*{avatar}" class="form-control" id="s"
+                               aria-describedby="emailHelp" readonly>
                     </div>
 
                     <input type="file"
@@ -109,6 +109,9 @@
     </script>
     <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
     <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
 
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
     <script>
@@ -116,26 +119,25 @@
             FilePond.registerPlugin(
                 FilePondPluginImagePreview,
                 FilePondPluginFileEncode,
+                FilePondPluginImageResize,
+                FilePondPluginImageCrop,
+                FilePondPluginImageTransform
             );
-            const input = FilePond.create(
+            FilePond.create(
                 document.querySelector('#thumbnail'), {
-                    imageResizeTargetWidth: 200,
+                    imageCropAspectRatio: "1366:768",
+                    imageResizeTargetWidth: 1366,
+                    imageResizeTargetHeight: 768,
+                    imageResizeMode: 'contain',
+                    onaddfile: (err, fileItem) => {
+                        // console.log(err, fileItem.getMetadata('resize'));
+                    },
+                    onpreparefile: item => {
+                        $("#s").val(item.getFileEncodeDataURL())
+                    }
+
                 },
             )
-            var pond = document.querySelector('.filepond--root');
-            pond.addEventListener('FilePond:addfile', function () {
-                console.log(pond.querySelector('input[name="filepond"]'))
-            })
-            setTimeout(function () {
-                console.log(pond.querySelector('input[name="filepond"]').value)
-                const matchData = JSON.parse(pond.querySelector('input[name="filepond"]').value)
-                console.log(matchData)
-            }, 5000);
-
-            pond.addEventListener('FilePond:processfile', function (event) {
-                // Doesn't seem to fire at all?
-                console.log(event);
-            });
         })
 
     </script>

@@ -30,5 +30,9 @@ public class PostServices {
         return postRepository.findTop3ByOrderByUpdatedDesc();
     }
 
+    public List<Post> getBySearch(String search) {
+        return postRepository.findByTitleLike(search);
+    }
+
 
 }

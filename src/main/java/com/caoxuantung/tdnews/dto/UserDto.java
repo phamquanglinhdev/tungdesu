@@ -10,11 +10,17 @@ public class UserDto implements Serializable {
     private final String email;
     private final String name;
     private final String role;
+    private final String avatar;
 
-    public UserDto(String email, String name, String role) {
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public UserDto(String email, String name, String role, String avatar) {
         this.email = email;
         this.name = name;
         this.role = role;
+        this.avatar = avatar;
     }
 
     public String getEmail() {

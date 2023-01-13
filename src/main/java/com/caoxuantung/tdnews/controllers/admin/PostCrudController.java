@@ -68,6 +68,7 @@ public class PostCrudController {
             updatePost.setDocument(post.getDocument());
             updatePost.setTags(post.getTags());
             updatePost.setCategory(post.getCategory());
+            updatePost.setAvatar(post.getAvatar());
             postRepository.save(updatePost);
         } else {
             return "redirect:/admin/post";

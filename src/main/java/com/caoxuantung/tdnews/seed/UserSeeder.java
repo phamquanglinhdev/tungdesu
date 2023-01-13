@@ -24,6 +24,7 @@ public class UserSeeder {
         if (userRepository.findByEmail("alex.cao@gmail.com") == null) {
             Random gen = new Random();
             User user = new User();
+            user.setAvatar("https://ngonaz.com/wp-content/uploads/2022/01/cach-ve-anime-2.jpg");
             user.setName("Alex Cao");
             user.setEmail("alex.cao@gmail.com");
             user.setPassword(passwordEncoder.encode("99999999"));
@@ -34,6 +35,7 @@ public class UserSeeder {
         if (userRepository.findByEmail("jenifer@gmail.com") == null) {
             Random gen = new Random();
             User user = new User();
+            user.setAvatar("https://i1.sndcdn.com/artworks-000248908839-wlug27-t500x500.jpg");
             user.setName("Jenifer Patter");
             user.setEmail("jenifer@gmail.com");
             user.setPassword(passwordEncoder.encode("99999999"));

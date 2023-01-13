@@ -89,4 +89,15 @@ public class PostController {
         model.addAttribute("posts", tagServices.getPosts(tag.getId()));
         return "posts";
     }
+
+    @PostMapping("search")
+    public String search(@RequestParam(name = "q") String value, Model model) {
+        model.addAttribute("recentPost", postServices.getRecentPost());
+        model.addAttribute("categories", categoryServices.getAll());
+        model.addAttribute("tags", tagServices.getAll());
+        model.addAttribute("type", "Search by key");
+        model.addAttribute("name", value);
+        model.addAttribute("posts", postServices.getBySearch("%" + value + "%"));
+        return "posts";
+    }
 }

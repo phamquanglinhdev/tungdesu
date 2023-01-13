@@ -1,0 +1,116 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="layouts/common::common(~{::content},~{::css},~{::js})">
+<css>
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
+          rel="stylesheet"/>
+    <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet"/>
+</css>
+<content>
+    <div class="heading-page header-text">
+        <section class="page-heading">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="text-content">
+                            <h4>Profile</h4>
+                            <h2>Edit your profile</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-2 col-md-4 col-12">
+                <div class="rounded-circle w-100 ">
+                    <img id="preview" th:src="${user.getAvatar()}" class="w-100 rounded-circle">
+                </div>
+                <div class="w-100">
+                    <input type="file"
+                           class="filepond"
+                           name="filepond"
+                           id="avatar-input"
+                    >
+                </div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+                <form th:action="@{/user/update}" method="post">
+                    <input hidden name="avatar" id="avatar" th:value="${user.getAvatar()}">
+                    <div class="form-group">
+                        <label>Email address</label>
+                        <input name="email" th:value="${user.email}" type="email" class="form-control"
+                               placeholder="name@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label>Full name</label>
+                        <input name="name" th:value="${user.name}" type="text" class="form-control">
+                    </div>
+                    <button class="btn btn-success">Update Profile</button>
+                </form>
+                <th:block th:if="${notify}!=null">
+                    <div class="alert alert-success">Update successfully</div>
+                </th:block>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-6 col-12">
+                <form th:action="@{/user/change-password}" method="post">
+                    <div class="form-group">
+                        <label>Old password</label>
+                        <input name="old_password" type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>New password</label>
+                        <input name="new_password" type="password" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Re password</label>
+                        <input name="re_password" type="password" class="form-control">
+                    </div>
+                    <button class="btn btn-success">Change Passwords</button>
+                    <th:block th:if="${passNotify}!=null">
+                        <div class="alert alert-success" th:text="${passNotify}"></div>
+                    </th:block>
+                    <th:block th:if="${passError}!=null">
+                        <div class="alert alert-danger" th:text="${passError}"></div>
+                    </th:block>
+                </form>
+            </div>
+        </div>
+    </div>
+</content>
+<js>
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-file-encode/dist/filepond-plugin-file-encode.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-crop/dist/filepond-plugin-image-crop.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-resize/dist/filepond-plugin-image-resize.js"></script>
+    <script src="https://unpkg.com/filepond-plugin-image-transform/dist/filepond-plugin-image-transform.js"></script>
+
+    <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+    <script>
+        $(document).ready(() => {
+            FilePond.registerPlugin(
+                // FilePondPluginImagePreview,
+                FilePondPluginFileEncode,
+                FilePondPluginImageResize,
+                FilePondPluginImageCrop,
+                FilePondPluginImageTransform
+            );
+            FilePond.create(
+                document.querySelector('#avatar-input'), {
+                    imageCropAspectRatio: "1:1",
+                    imageResizeTargetWidth: 800,
+                    imageResizeTargetHeight: 800,
+                    imageResizeMode: 'contain',
+                    onaddfile: (err, fileItem) => {
+                        // console.log(err, fileItem.getMetadata('resize'));
+                    },
+                    onpreparefile: item => {
+                        $("#avatar").val(item.getFileEncodeDataURL())
+                        $("#preview").attr("src", item.getFileEncodeDataURL())
+                    }
+
+                },
+            )
+        })
+
+    </script>
+</js>
